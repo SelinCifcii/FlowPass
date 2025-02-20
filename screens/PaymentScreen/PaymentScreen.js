@@ -1,10 +1,11 @@
 import * as React from 'react';
-import {View, StyleSheet, Text, TouchableOpacity, TextInput, SafeAreaView, ScrollView} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, TextInput, SafeAreaView, ScrollView, Alert} from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { CustomCard } from '../components/CustomCard';
 import { FromTo } from '../components/FromTo';
 import { useWallet } from '../../context/WalletContext';
+import { useWeb3 } from '../../context/Web3Context';
 
 const THEME_COLOR = "#4ECDC4";
 
@@ -13,7 +14,40 @@ export const PaymentScreen = () => {
   const route = useRoute();
   const { price, unitsPrice, ticketType, route: busRoute, destination, departuretime, arrivaltime } = route.params;
   const { deductBalance, balance } = useWallet();
-   
+  const { biletSatinAl } = useWeb3();
+
+  const handlePayment = async () => {
+    try {
+      const biletId = 1; // Sabit bilet ID'si kullanıyoruz
+      console.log('Bilet satın alma başlatılıyor, ID:', biletId);
+
+      const success = await biletSatinAl(
+        biletId,
+        false, 
+        true   
+      );
+
+      if (success) {
+        deductBalance(unitsPrice, busRoute);
+        nav.navigate("TicketSuccess", {
+          ticketType,
+          route: busRoute,
+          price,
+          unitsPrice,
+          destination,
+          departuretime,
+          arrivaltime,
+          biletId
+        });
+      } else {
+        Alert.alert('Hata', 'Bilet satın alınamadı');
+      }
+    } catch (error) {
+      console.error('Ödeme hatası:', error);
+      Alert.alert('Hata', 'Ödeme işlemi başarısız');
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -27,7 +61,7 @@ export const PaymentScreen = () => {
         <CustomCard style={styles.ticketCard}>
           <View style={styles.ticketHeader}>
             <MaterialCommunityIcons name="ticket-outline" size={24} color={THEME_COLOR} />
-            <Text style={styles.ticketTitle}>Bilet Detayları</Text>
+            <Text style={styles.ticketTitle}>Ticket Details</Text>
           </View>
 
           <View style={styles.divider} />
@@ -38,7 +72,7 @@ export const PaymentScreen = () => {
             <View style={styles.detailRow}>
               <MaterialCommunityIcons name="clock-outline" size={20} color={THEME_COLOR} />
               <View style={styles.detailTexts}>
-                <Text style={styles.detailLabel}>Sefer Saati</Text>
+                <Text style={styles.detailLabel}>Departure Time</Text>
                 <Text style={styles.detailValue}>
                   {departuretime} - {arrivaltime}
                 </Text>
@@ -48,7 +82,7 @@ export const PaymentScreen = () => {
             <View style={styles.detailRow}>
               <MaterialCommunityIcons name="routes" size={20} color={THEME_COLOR} />
               <View style={styles.detailTexts}>
-                <Text style={styles.detailLabel}>Hat</Text>
+                <Text style={styles.detailLabel}>Route</Text>
                 <Text style={styles.detailValue}>{busRoute}</Text>
               </View>
             </View>
@@ -56,7 +90,7 @@ export const PaymentScreen = () => {
             <View style={styles.detailRow}>
               <MaterialCommunityIcons name="account-outline" size={20} color={THEME_COLOR} />
               <View style={styles.detailTexts}>
-                <Text style={styles.detailLabel}>Yolcu Tipi</Text>
+                <Text style={styles.detailLabel}>Ticket Type</Text>
                 <Text style={styles.detailValue}>{ticketType}</Text>
               </View>
             </View>
@@ -66,22 +100,22 @@ export const PaymentScreen = () => {
         <CustomCard style={styles.paymentCard}>
           <View style={styles.ticketHeader}>
             <MaterialCommunityIcons name="wallet-outline" size={24} color={THEME_COLOR} />
-            <Text style={styles.ticketTitle}>Ödeme Bilgileri</Text>
+            <Text style={styles.ticketTitle}>Payment Details</Text>
           </View>
 
           <View style={styles.divider} />
 
           <View style={styles.balanceContainer}>
-            <Text style={styles.balanceLabel}>Mevcut Bakiye</Text>
-            <Text style={styles.balanceValue}>{balance.toFixed(2)} UNITS</Text>
+            <Text style={styles.balanceLabel}>Current Balance</Text>
+            <Text style={styles.balanceValue}>{balance.toFixed(2)} UNIT0</Text>
           </View>
 
           <View style={styles.priceContainer}>
             <View style={styles.priceRow}>
-              <Text style={styles.priceLabel}>Ücret</Text>
+              <Text style={styles.priceLabel}>Price</Text>
               <View style={styles.priceValues}>
-                <Text style={styles.priceValue}>₺{price.toFixed(2)}</Text>
-                <Text style={styles.unitsValue}>{unitsPrice.toFixed(2)} UNITS</Text>
+                <Text style={styles.priceValue}>${price.toFixed(2)}</Text>
+                <Text style={styles.unitsValue}>{unitsPrice.toFixed(2)} UNIT0</Text>
               </View>
             </View>
           </View>
@@ -89,20 +123,9 @@ export const PaymentScreen = () => {
 
         <TouchableOpacity 
           style={styles.payButton}
-          onPress={() => {
-            deductBalance(unitsPrice, busRoute);
-            nav.navigate("TicketSuccess", {
-              ticketType,
-              route: busRoute,
-              price,
-              unitsPrice,
-              destination,
-              departuretime,
-              arrivaltime
-            });
-          }}
+          onPress={handlePayment}
         >
-          <Text style={styles.payButtonText}>Ödemeyi Tamamla</Text>
+          <Text style={styles.payButtonText}>Complete Payment</Text>
           <MaterialCommunityIcons name="arrow-right" size={24} color="#000" />
         </TouchableOpacity>
       </ScrollView>

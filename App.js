@@ -5,15 +5,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import { AppNavigator } from './screens/Navigator/AppNavigator';
 import { WalletProvider } from './context/WalletContext';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Web3Provider } from './context/Web3Context';
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <WalletProvider>
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </WalletProvider>
+       <Web3Provider>
+        <WalletProvider>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </WalletProvider>
+      </Web3Provider>
     </SafeAreaProvider>
   );
 }
