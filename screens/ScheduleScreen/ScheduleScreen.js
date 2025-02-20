@@ -128,7 +128,7 @@ export const ScheduleScreen = () => {
             route: "522 - Kızılay-Çayyolu",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -147,7 +147,7 @@ export const ScheduleScreen = () => {
             route: "522 - Kızılay-Çayyolu",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -166,7 +166,7 @@ export const ScheduleScreen = () => {
             route: "522 - Kızılay-Çayyolu",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -185,7 +185,7 @@ export const ScheduleScreen = () => {
             route: "522 - Kızılay-Çayyolu",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -208,7 +208,7 @@ export const ScheduleScreen = () => {
             route: "M1 - Kızılay-Batıkent",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -227,7 +227,7 @@ export const ScheduleScreen = () => {
             route: "M1 - Kızılay-Batıkent",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -246,7 +246,7 @@ export const ScheduleScreen = () => {
             route: "M1 - Kızılay-Batıkent",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -265,7 +265,7 @@ export const ScheduleScreen = () => {
             route: "M1 - Kızılay-Batıkent",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -284,7 +284,7 @@ export const ScheduleScreen = () => {
             route: "M1 - Kızılay-Batıkent",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -307,7 +307,7 @@ export const ScheduleScreen = () => {
             route: "Sincan-Kayaş",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -326,7 +326,7 @@ export const ScheduleScreen = () => {
             route: "Sincan-Kayaş",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -345,7 +345,7 @@ export const ScheduleScreen = () => {
             route: "Sincan-Kayaş",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -364,7 +364,7 @@ export const ScheduleScreen = () => {
             route: "Sincan-Kayaş",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -383,7 +383,7 @@ export const ScheduleScreen = () => {
             route: "Sincan-Kayaş",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -406,7 +406,7 @@ export const ScheduleScreen = () => {
             route: "AŞTİ-Dikimevi",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -425,7 +425,7 @@ export const ScheduleScreen = () => {
             route: "AŞTİ-Dikimevi",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -444,7 +444,7 @@ export const ScheduleScreen = () => {
             route: "AŞTİ-Dikimevi",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -463,7 +463,7 @@ export const ScheduleScreen = () => {
             route: "AŞTİ-Dikimevi",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,
@@ -482,7 +482,7 @@ export const ScheduleScreen = () => {
             route: "AŞTİ-Dikimevi",
             price: price,
             onPressHandler: () => {
-              nav.navigate("payment", {
+              nav.navigate("Payment", {
                 price: price,
                 unitsPrice: unitsPrice,
                 ticketType: selectedType.name,

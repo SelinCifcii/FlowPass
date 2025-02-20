@@ -7,6 +7,7 @@ import { HomeScreen } from '../HomeScreen/HomeScreen';
 import { WalletScreen } from '../WalletScreen/WalletScreen';
 import { ScheduleScreen } from '../ScheduleScreen/ScheduleScreen';
 import { PaymentScreen } from '../PaymentScreen/PaymentScreen';
+import { TicketSuccessScreen } from '../TicketSuccessScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -21,7 +22,7 @@ const HomeStack = () => {
       <Stack.Screen name="HomeMain" component={HomeScreen} />
       <Stack.Screen name="Schedule" component={ScheduleScreen} />
       <Stack.Screen name="Payment" component={PaymentScreen} />
-      <Stack.Screen name="TicketSuccess" component={PlaceholderScreen} />
+      <Stack.Screen name="TicketSuccess" component={TicketSuccessScreen} />
     </Stack.Navigator>
   );
 };
