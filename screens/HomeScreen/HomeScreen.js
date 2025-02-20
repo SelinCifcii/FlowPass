@@ -33,7 +33,7 @@ export const HomeScreen = () => {
       icon: "bus",
       frequency: "Değişkenlik gösterir",
       onPressHandler: () => {
-        nav.navigate("schedule", {
+        nav.navigate("Schedule", {
           title: "Otobüs",
           backgroundColor: "#4ECDC4",
           destination: selectedLocation,
@@ -48,7 +48,7 @@ export const HomeScreen = () => {
       icon: "subway-variant",
       frequency: "5-6 dakikada bir",
       onPressHandler: () => {
-        nav.navigate("schedule", {
+        nav.navigate("Schedule", {
           title: "Metro",
           backgroundColor: "#4ECDC4",
           destination: selectedLocation,
@@ -63,7 +63,7 @@ export const HomeScreen = () => {
       icon: "train",
       frequency: "15 dakikada bir",
       onPressHandler: () => {
-        nav.navigate("schedule", {
+        nav.navigate("Schedule", {
           title: "Başkentray",
           backgroundColor: "#4ECDC4",
           destination: selectedLocation,
@@ -78,7 +78,7 @@ export const HomeScreen = () => {
       icon: "tram",
       frequency: "5-6 dakikada bir",
       onPressHandler: () => {
-        nav.navigate("schedule", {
+        nav.navigate("Schedule", {
           title: "Ankaray",
           backgroundColor: "#4ECDC4",
           destination: selectedLocation,

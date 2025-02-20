@@ -4,11 +4,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { HomeScreen } from '../HomeScreen/HomeScreen';
+import { WalletScreen } from '../WalletScreen/WalletScreen';
+import { ScheduleScreen } from '../ScheduleScreen/ScheduleScreen';
+import { PaymentScreen } from '../PaymentScreen/PaymentScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-// Simple placeholder component for screens that aren't built yet
 const PlaceholderScreen = () => (
   <SafeAreaView style={{ flex: 1, backgroundColor: '#121212' }} />
 );
@@ -16,10 +18,10 @@ const PlaceholderScreen = () => (
 const HomeStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="home" component={HomeScreen} />
-      <Stack.Screen name="schedule" component={PlaceholderScreen} />
-      <Stack.Screen name="payment" component={PlaceholderScreen} />
-      <Stack.Screen name="ticketSuccess" component={PlaceholderScreen} />
+      <Stack.Screen name="HomeMain" component={HomeScreen} />
+      <Stack.Screen name="Schedule" component={ScheduleScreen} />
+      <Stack.Screen name="Payment" component={PaymentScreen} />
+      <Stack.Screen name="TicketSuccess" component={PlaceholderScreen} />
     </Stack.Navigator>
   );
 };
@@ -56,7 +58,7 @@ export const AppNavigator = () => {
       />
       <Tab.Screen 
         name="Wallet" 
-        component={PlaceholderScreen}
+        component={WalletScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <Ionicons 
