@@ -5,8 +5,10 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { CustomCard } from './components/CustomCard';
 import QRCode from 'react-native-qrcode-svg';
 import LottieView from 'lottie-react-native';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { FromTo } from './components/FromTo';
 
+const THEME_COLOR = "#4ECDC4";
 const { width } = Dimensions.get('window');
 
 export const TicketSuccessScreen = () => {
@@ -14,6 +16,7 @@ export const TicketSuccessScreen = () => {
   const route = useRoute();
   const animation = useRef(null);
   const { ticketType, route: busRoute, price, unitsPrice, destination, departuretime, arrivaltime } = route.params;
+  const [currentLocation, setCurrentLocation] = useState("Kızılay");
 
   useEffect(() => {
     // Animasyonu sürekli tekrarla
@@ -65,6 +68,13 @@ export const TicketSuccessScreen = () => {
           <Text style={styles.subtitle}>Your ticket is ready</Text>
 
           <CustomCard style={styles.ticketCard}>
+            <FromTo 
+              backgroundColor={THEME_COLOR}
+              textColor="#fff"
+              from={currentLocation}
+              to={destination}
+            />
+
             <View style={styles.qrContainer}>
               <QRCode
                 value={ticketData}

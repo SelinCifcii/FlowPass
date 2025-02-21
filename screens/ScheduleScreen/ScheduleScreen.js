@@ -11,6 +11,8 @@ export const ScheduleScreen = () => {
   const nav = useNavigation();
   const route = useRoute();
   const params = route.params;
+  const destination = params.destination || "Select destination";
+  const [currentLocation, setCurrentLocation] = useState("Current Location");
   const THEME_COLOR = "#4ECDC4"; 
   const [selectedTicketType, setSelectedTicketType] = useState('full');
   const [key, setKey] = useState(0);
@@ -506,6 +508,10 @@ export const ScheduleScreen = () => {
     return unsubscribe;
   }, [nav]);
 
+  useEffect(() => {
+    setCurrentLocation("Kızılay");
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.header, { backgroundColor: '#2d2d2d' }]}>
@@ -521,6 +527,8 @@ export const ScheduleScreen = () => {
             key={key}
             backgroundColor={THEME_COLOR}
             textColor="#fff"
+            from={currentLocation}
+            to={destination}
           />
         </CustomCard>
         

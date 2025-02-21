@@ -6,7 +6,12 @@ import { useEffect, useRef } from 'react';
 const { width } = Dimensions.get('window');
 const THEME_COLOR = "#4ECDC4"; 
 
-export const FromTo = ({ backgroundColor = THEME_COLOR, textColor = "#fff" }) => {
+export const FromTo = ({ 
+  backgroundColor = THEME_COLOR, 
+  textColor = "#fff",
+  from = "Select location",
+  to = "Select destination"
+}) => {
   const lineAnimation = useRef(new Animated.Value(0)).current;
   const dotAnimation = useRef(new Animated.Value(0)).current;
 
@@ -33,9 +38,9 @@ export const FromTo = ({ backgroundColor = THEME_COLOR, textColor = "#fff" }) =>
   useEffect(() => {
     const interval = setInterval(() => {
       startAnimation();
-    }, 3000); // Her 3 saniyede bir tekrarla
+    }, 3000);
 
-    startAnimation(); // İlk animasyonu başlat
+    startAnimation();
 
     return () => clearInterval(interval);
   }, []);
@@ -57,7 +62,7 @@ export const FromTo = ({ backgroundColor = THEME_COLOR, textColor = "#fff" }) =>
         </Animated.View>
         <View style={styles.textContainer}>
           <Text style={[styles.label, { color: '#999' }]}>From</Text>
-          <Text style={[styles.locationText, { color: textColor }]}>Kızılay</Text>
+          <Text style={[styles.locationText, { color: textColor }]}>{from}</Text>
         </View>
       </View>
 
@@ -105,7 +110,7 @@ export const FromTo = ({ backgroundColor = THEME_COLOR, textColor = "#fff" }) =>
         </Animated.View>
         <View style={styles.textContainer}>
           <Text style={[styles.label, { color: '#999' }]}>To</Text>
-          <Text style={[styles.locationText, { color: textColor }]}>Çayyolu</Text>
+          <Text style={[styles.locationText, { color: textColor }]}>{to}</Text>
         </View>
       </View>
     </View>

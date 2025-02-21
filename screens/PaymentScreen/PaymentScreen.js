@@ -6,14 +6,16 @@ import { CustomCard } from '../components/CustomCard';
 import { FromTo } from '../components/FromTo';
 import { useWallet } from '../../context/WalletContext';
 import { useWeb3 } from '../../context/Web3Context';
+import { useState } from 'react';
 
 const THEME_COLOR = "#4ECDC4";
 
 export const PaymentScreen = () => {
   const nav = useNavigation();
   const route = useRoute();
-  const { price, unitsPrice, ticketType, route: busRoute, destination, departuretime, arrivaltime } = route.params;
-  const { deductBalance, balance } = useWallet();
+  const { ticketType, route: busRoute, price, unitsPrice, destination, departuretime, arrivaltime } = route.params;
+  const { balance, deductBalance } = useWallet();
+  const [currentLocation, setCurrentLocation] = useState("Kızılay");
   const { biletSatinAl } = useWeb3();
 
   const handlePayment = async () => {
@@ -23,8 +25,8 @@ export const PaymentScreen = () => {
 
       const success = await biletSatinAl(
         biletId,
-        false, 
-        true   
+        false, // İleri tarihli değil
+        true   // Bakiye kullan
       );
 
       if (success) {
@@ -54,7 +56,7 @@ export const PaymentScreen = () => {
         <TouchableOpacity onPress={() => nav.goBack()} style={styles.backButton}>
           <MaterialCommunityIcons name="arrow-left" size={20} color="#fff" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>Ödeme</Text>
+        <Text style={styles.headerTitle}>Payment</Text>
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -66,7 +68,12 @@ export const PaymentScreen = () => {
 
           <View style={styles.divider} />
 
-          <FromTo backgroundColor={THEME_COLOR} textColor="#fff" />
+          <FromTo 
+            backgroundColor={THEME_COLOR}
+            textColor="#fff"
+            from={currentLocation}
+            to={destination}
+          />
 
           <View style={styles.detailsContainer}>
             <View style={styles.detailRow}>
