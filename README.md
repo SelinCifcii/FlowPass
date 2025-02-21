@@ -54,7 +54,6 @@ npm start
 npx react-native run-ios
 npx react-native run-android
 
-## 📝 Project Structure
 
 The project is organized into the following key directories:
 
