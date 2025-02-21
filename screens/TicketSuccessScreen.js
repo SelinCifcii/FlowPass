@@ -1,14 +1,36 @@
 import * as React from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, SafeAreaView, ScrollView, Dimensions } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { CustomCard } from './components/CustomCard';
 import QRCode from 'react-native-qrcode-svg';
+import LottieView from 'lottie-react-native';
+import { useEffect, useRef } from 'react';
+
+const { width } = Dimensions.get('window');
 
 export const TicketSuccessScreen = () => {
   const nav = useNavigation();
   const route = useRoute();
+  const animation = useRef(null);
   const { ticketType, route: busRoute, price, unitsPrice, destination, departuretime, arrivaltime } = route.params;
+
+  useEffect(() => {
+    // Animasyonu sürekli tekrarla
+    if (animation.current) {
+      animation.current.play();
+      
+      // Animasyon bittiğinde tekrar başlat
+      animation.current.onAnimationFinish = () => {
+        setTimeout(() => {
+          if (animation.current) {
+            animation.current.reset();
+            animation.current.play();
+          }
+        }, 500); // 500ms bekle ve tekrar başlat
+      };
+    }
+  }, []);
 
   const ticketData = JSON.stringify({
     type: ticketType,
@@ -27,9 +49,20 @@ export const TicketSuccessScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.content}>
-          <MaterialCommunityIcons name="check-circle" size={80} color="#4ECDC4" />
-          <Text style={styles.title}>Ödeme Başarılı!</Text>
-          <Text style={styles.subtitle}>Biletiniz hazır</Text>
+          <View style={styles.animationContainer}>
+            <LottieView
+              ref={animation}
+              source={require('../assets/animation/success.json')}
+              style={styles.animation}
+              autoPlay={true}
+              loop={true}
+              speed={0.8}
+              resizeMode="cover"
+            />
+          </View>
+          
+          <Text style={styles.title}>Payment Successful!</Text>
+          <Text style={styles.subtitle}>Your ticket is ready</Text>
 
           <CustomCard style={styles.ticketCard}>
             <View style={styles.qrContainer}>
@@ -44,23 +77,23 @@ export const TicketSuccessScreen = () => {
             <View style={styles.divider} />
 
             <View style={styles.ticketDetail}>
-              <Text style={styles.label}>Güzergah</Text>
+              <Text style={styles.label}>Route</Text>
               <Text style={styles.value}>{busRoute}</Text>
             </View>
             
             <View style={styles.ticketDetail}>
-              <Text style={styles.label}>Yolcu Tipi</Text>
+              <Text style={styles.label}>Ticket Type</Text>
               <Text style={styles.value}>{ticketType}</Text>
             </View>
 
             <View style={styles.ticketDetail}>
-              <Text style={styles.label}>Sefer Saati</Text>
+              <Text style={styles.label}>Departure Time</Text>
               <Text style={styles.value}>{departuretime} - {arrivaltime}</Text>
             </View>
 
             <View style={styles.ticketDetail}>
-              <Text style={styles.label}>Ücret</Text>
-              <Text style={styles.value}>{unitsPrice.toFixed(2)} UNITS</Text>
+              <Text style={styles.label}>Price</Text>
+              <Text style={styles.value}>{unitsPrice.toFixed(2)} UNIT0</Text>
             </View>
           </CustomCard>
 
@@ -68,7 +101,7 @@ export const TicketSuccessScreen = () => {
             style={styles.button}
             onPress={() => nav.navigate('HomeMain')}
           >
-            <Text style={styles.buttonText}>Ana Sayfaya Dön</Text>
+            <Text style={styles.buttonText}>Back to Home</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -89,7 +122,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
-    paddingBottom: 40, 
+    paddingBottom: 40,
+  },
+  animationContainer: {
+    width: width * 0.5,
+    height: width * 0.5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  animation: {
+    width: '100%',
+    height: '100%',
   },
   title: {
     fontSize: 24,
@@ -99,7 +143,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#999',
     marginTop: 8,
     marginBottom: 30,
   },
@@ -109,6 +153,8 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     width: '100%',
     marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#333',
   },
   qrContainer: {
     alignItems: 'center',
@@ -125,7 +171,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: '#666',
+    color: '#999',
     marginBottom: 4,
   },
   value: {
@@ -139,7 +185,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 12,
     marginTop: 30,
-    width: '100%', 
+    width: '100%',
   },
   buttonText: {
     color: '#000',

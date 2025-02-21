@@ -2,8 +2,24 @@ import React, { createContext, useState, useContext } from 'react';
 
 const WalletContext = createContext();
 
+const formatDate = (date) => {
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+  
+  const d = new Date(date);
+  const month = months[d.getMonth()];
+  const day = d.getDate().toString().padStart(2, '0');
+  const year = d.getFullYear();
+  const hours = d.getHours().toString().padStart(2, '0');
+  const minutes = d.getMinutes().toString().padStart(2, '0');
+  
+  return `${month} ${day}, ${year} • ${hours}:${minutes}`;
+};
+
 export const WalletProvider = ({ children }) => {
-  const [balance, setBalance] = useState(100);
+  const [balance, setBalance] = useState(40);
   const [transactions, setTransactions] = useState([]);
 
   const deductBalance = (amount, ticketInfo) => {
@@ -12,18 +28,10 @@ export const WalletProvider = ({ children }) => {
       id: Date.now().toString(),
       type: 'debit',
       amount: amount,
-      title: `Bilet - ${ticketInfo}`,
-      date: new Date().toLocaleDateString('tr-TR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
+      title: `Ticket - ${ticketInfo}`,
+      date: formatDate(new Date()),
     }, ...prev]);
   };
-
-  //const addBalancefor = () =>{}
 
   const addBalance = (amount) => {
     setBalance(prevBalance => prevBalance + amount);
@@ -31,15 +39,21 @@ export const WalletProvider = ({ children }) => {
       id: Date.now().toString(),
       type: 'credit',
       amount: amount,
-      title: 'UNITS Added',
-      date: new Date().toLocaleDateString('tr-TR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      }),
+      title: 'UNIT0 Added',
+      date: formatDate(new Date()),
     }, ...prev]);
+  };
+
+  const addTransaction = (type, amount, title) => {
+    const newTransaction = {
+      id: Date.now().toString(),
+      type,
+      amount,
+      title,
+      date: formatDate(new Date()),
+    };
+
+    setTransactions(prev => [newTransaction, ...prev]);
   };
 
   return (

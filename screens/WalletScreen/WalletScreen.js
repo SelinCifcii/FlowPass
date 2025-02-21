@@ -39,7 +39,7 @@ export const WalletScreen = () => {
         ]}>
           {item.type === 'debit' ? '-' : '+'} {item.amount.toFixed(2)}
         </Text>
-        <Text style={styles.unitText}>UNITS</Text>
+        <Text style={styles.unitText}>UNIT0</Text>
       </View>
     </View>
   );
@@ -52,14 +52,14 @@ export const WalletScreen = () => {
 
       <CustomCard elevated={true} style={styles.balanceCard}>
         <Text style={styles.balanceTitle}>Total Balance</Text>
-        <Text style={styles.balanceAmount}>{balance.toFixed(2)} UNITS</Text>
+        <Text style={styles.balanceAmount}>{balance.toFixed(2)} UNIT0</Text>
         <View style={styles.balanceActions}>
           <TouchableOpacity 
             style={styles.actionButton}
             onPress={() => setModalVisible(true)}
           >
             <Ionicons name="add-circle-outline" size={24} color="#fff" />
-            <Text style={styles.actionButtonText}>Add UNITS</Text>
+            <Text style={styles.actionButtonText}>Add UNIT0</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.actionButton}>
             <Ionicons name="swap-horizontal-outline" size={24} color="#fff" />
@@ -90,7 +90,7 @@ export const WalletScreen = () => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Add UNITS</Text>
+            <Text style={styles.modalTitle}>Add UNIT0</Text>
             <Text style={styles.modalSubtitle}>Enter amount to add to your wallet</Text>
             
             <TextInput

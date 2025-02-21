@@ -7,35 +7,44 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  StatusBar,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { PRIMARYCOLOR } from "../../Constants.js";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { CustomCard } from "../components/CustomCard";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useWallet } from "../../context/WalletContext";
 import { styles } from "./styles.js";
-
 
 export const HomeScreen = () => {
   const nav = useNavigation();
   const [selectedLocation, setSelectedLocation] = useState("");
   const { balance, transactions } = useWallet();
+  const [greeting, setGreeting] = useState("Good morning");
 
   const totalTrips = transactions.filter((t) => t.type === "debit").length;
+
+  useEffect(() => {
+    // Set greeting based on time of day
+    const hours = new Date().getHours();
+    if (hours < 12) setGreeting("Good morning");
+    else if (hours < 18) setGreeting("Good afternoon");
+    else setGreeting("Good evening");
+  }, []);
 
   const DATA = [
     {
       id: 1,
-      name: "Otobüs (EGO)",
+      name: "Bus (EGO)",
       backgroundColor: "#FF6B6B",
       icon: "bus",
-      frequency: "Değişkenlik gösterir",
+      frequency: "Variable",
       onPressHandler: () => {
         nav.navigate("Schedule", {
-          title: "Otobüs",
-          backgroundColor: "#4ECDC4",
+          title: "Bus",
+          backgroundColor: "#FF6B6B",
           destination: selectedLocation,
           type: "bus",
         });
@@ -46,7 +55,7 @@ export const HomeScreen = () => {
       name: "Metro",
       backgroundColor: "#4ECDC4",
       icon: "subway-variant",
-      frequency: "5-6 dakikada bir",
+      frequency: "Every 5-6 minutes",
       onPressHandler: () => {
         nav.navigate("Schedule", {
           title: "Metro",
@@ -58,14 +67,14 @@ export const HomeScreen = () => {
     },
     {
       id: 3,
-      name: "Başkentray",
+      name: "Başkentray (Light rail)",
       backgroundColor: "#45B7D1",
       icon: "train",
-      frequency: "15 dakikada bir",
+      frequency: "Every 15 minutes",
       onPressHandler: () => {
         nav.navigate("Schedule", {
           title: "Başkentray",
-          backgroundColor: "#4ECDC4",
+          backgroundColor: "#45B7D1",
           destination: selectedLocation,
           type: "train",
         });
@@ -73,14 +82,14 @@ export const HomeScreen = () => {
     },
     {
       id: 4,
-      name: "Ankaray",
+      name: "Ankaray (Commuter rail)",
       backgroundColor: "#96CEB4",
       icon: "tram",
-      frequency: "5-6 dakikada bir",
+      frequency: "Every 5-6 minutes",
       onPressHandler: () => {
         nav.navigate("Schedule", {
           title: "Ankaray",
-          backgroundColor: "#4ECDC4",
+          backgroundColor: "#96CEB4",
           destination: selectedLocation,
           type: "tram",
         });
@@ -94,6 +103,7 @@ export const HomeScreen = () => {
         <TouchableOpacity
           onPress={item.onPressHandler}
           style={styles.transportCard}
+          activeOpacity={0.7}
         >
           <View
             style={[
@@ -101,7 +111,7 @@ export const HomeScreen = () => {
               { backgroundColor: item.backgroundColor },
             ]}
           >
-            <MaterialCommunityIcons name={item.icon} size={32} color="#fff" />
+            <MaterialCommunityIcons name={item.icon} size={28} color="#fff" />
           </View>
           <View style={styles.transportInfo}>
             <Text style={styles.transportName}>{item.name}</Text>
@@ -109,12 +119,16 @@ export const HomeScreen = () => {
               <MaterialCommunityIcons
                 name="clock-outline"
                 size={14}
-                color="#666"
+                color="#999"
               />
               <Text style={styles.transportTime}>{item.frequency}</Text>
             </View>
           </View>
-          <MaterialCommunityIcons name="chevron-right" size={24} color="#666" />
+          <MaterialCommunityIcons 
+            name="chevron-right" 
+            size={24} 
+            color={PRIMARYCOLOR} 
+          />
         </TouchableOpacity>
       </CustomCard>
     );
@@ -122,31 +136,33 @@ export const HomeScreen = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topview}>
+      <StatusBar barStyle="light-content" backgroundColor="#121212" />
+      
+      <View style={[styles.topview, { zIndex: 10 }]}>
         <View style={styles.header}>
           <View>
-            <Text style={styles.greeting}>Merhaba 👋</Text>
+            <Text style={styles.greeting}>{greeting} 👋</Text>
             <Text style={styles.username}>
-              <Text style={{ fontWeight: "normal" }}>Şehriniz: </Text>
-              <Text style={{ fontWeight: "bold" }}>Ankara</Text>
+              <Text style={{ fontWeight: "normal", color: "#999" }}>City: </Text>
+              <Text style={{ fontWeight: "bold", color: "#fff" }}>Ankara</Text>
             </Text>
           </View>
-          <View style={styles.profilePic}>
-            <MaterialCommunityIcons name="account" size={30} color="#666" />
-          </View>
+          <TouchableOpacity style={styles.profilePic}>
+            <MaterialCommunityIcons name="account" size={28} color={PRIMARYCOLOR} />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.searchContainer}>
-          <Text style={styles.searchTitle}>Nereye gitmek istiyorsunuz?</Text>
+          <Text style={styles.searchTitle}>Where do you want to go?</Text>
           <View style={styles.searchbar}>
-            <MaterialCommunityIcons name="magnify" size={24} color="#666" />
+            <MaterialCommunityIcons name="magnify" size={24} color={PRIMARYCOLOR} />
             <GooglePlacesAutocomplete
-              placeholder="Hedef konumu seçin"
+              placeholder="Select target location"
               minLength={2}
               enablePoweredByContainer={false}
               fetchDetails={true}
               textInputProps={{
-                placeholderTextColor: "#666",
+                placeholderTextColor: "#999",
                 autoCapitalize: "none",
                 autoCorrect: false,
               }}
@@ -161,6 +177,7 @@ export const HomeScreen = () => {
               styles={{
                 container: {
                   flex: 1,
+                  zIndex: 10,
                 },
                 textInput: {
                   height: 40,
@@ -175,17 +192,22 @@ export const HomeScreen = () => {
                   left: 0,
                   right: 0,
                   backgroundColor: "#2d2d2d",
-                  borderRadius: 10,
+                  borderRadius: 16,
+                  borderWidth: 1,
+                  borderColor: "#3d3d3d",
+                  overflow: "hidden",
+                  zIndex: 9999,
+                  elevation: 3,
                 },
                 row: {
                   backgroundColor: "#2d2d2d",
-                  padding: 13,
-                  height: 44,
+                  padding: 15,
+                  height: 50,
                   flexDirection: "row",
                 },
                 separator: {
                   height: 0.5,
-                  backgroundColor: "#666",
+                  backgroundColor: "#3d3d3d",
                 },
                 description: {
                   color: "#fff",
@@ -200,44 +222,43 @@ export const HomeScreen = () => {
         </View>
       </View>
 
-      <View style={styles.bottomview}>
+      <View style={[styles.bottomview, { zIndex: 1 }]}>
         <CustomCard elevated={true} style={styles.statsCard}>
           <View style={styles.statItem}>
             <MaterialCommunityIcons
               name="wallet-outline"
-              size={24}
-              color="#666"
+              size={28}
+              color={PRIMARYCOLOR}
             />
             <View style={styles.statInfo}>
-              <Text style={styles.statLabel}>Bakiye</Text>
-              <Text style={styles.statValue}>{balance.toFixed(2)} UNITS</Text>
+              <Text style={styles.statLabel}>Balance</Text>
+              <Text style={styles.statValue}>{balance.toFixed(2)} UNIT0</Text>
             </View>
           </View>
           <View style={styles.divider} />
           <View style={styles.statItem}>
             <MaterialCommunityIcons
               name="ticket-outline"
-              size={24}
-              color="#666"
+              size={28}
+              color={PRIMARYCOLOR}
             />
             <View style={styles.statInfo}>
-              <Text style={styles.statLabel}>Toplam Yolculuk</Text>
+              <Text style={styles.statLabel}>Total Trips</Text>
               <Text style={styles.statValue}>{totalTrips}</Text>
             </View>
           </View>
         </CustomCard>
 
-        <Text style={styles.sectionTitle}>Ulaşım Seçenekleri</Text>
+        <Text style={styles.sectionTitle}>Transportation Options</Text>
 
         <FlatList
           data={DATA}
           renderItem={transportItem}
           keyExtractor={(item) => item.id.toString()}
           contentContainerStyle={styles.transportList}
+          showsVerticalScrollIndicator={false}
         />
       </View>
     </View>
   );
 };
-
-

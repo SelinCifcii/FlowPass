@@ -4,7 +4,7 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { CustomCard } from '../components/CustomCard';
 import { FromTo } from '../components/FromTo';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styles } from './styles';
 
 export const ScheduleScreen = () => {
@@ -13,12 +13,13 @@ export const ScheduleScreen = () => {
   const params = route.params;
   const THEME_COLOR = "#4ECDC4"; 
   const [selectedTicketType, setSelectedTicketType] = useState('full');
+  const [key, setKey] = useState(0);
 
   const ticketTypes = [
-    { id: 'full', name: 'Tam Ücret', price: 21.00 },
-    { id: 'student', name: 'Öğrenci', price: 10.50 },
-    { id: 'teacher', name: 'Öğretmen', price: 15.50 },
-    { id: 'senior', name: '65 Yaş Üstü', price: 0 },
+    { id: 'full', name: 'Full Fare', price: 0.58 },
+    { id: 'student', name: 'Student Fare', price: 0.28 },
+    { id: 'teacher', name: 'Educator Fare', price: 0.43 },
+    { id: 'senior', name: 'Senior Fare (65+)', price: 0 },
   ];
 
   const convertToUnits = (tlPrice) => {
@@ -27,7 +28,7 @@ export const ScheduleScreen = () => {
 
   const TicketTypeSelector = () => (
     <View style={styles.ticketTypeContainer}>
-      <Text style={styles.ticketTypeTitle}>Bilet Tipi</Text>
+      <Text style={styles.ticketTypeTitle}>Ticket Type</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.ticketTypeButtons}>
           {ticketTypes.map((type) => (
@@ -49,7 +50,7 @@ export const ScheduleScreen = () => {
               <View>
                 <Text style={styles.ticketTypeName}>{type.name}</Text>
                 <Text style={styles.ticketTypePrice}>
-                  {type.price === 0 ? 'Ücretsiz' : `₺${type.price.toFixed(2)}`}
+                  {type.price === 0 ? 'Ücretsiz' : `$${type.price.toFixed(2)}`}
                 </Text>
               </View>
             </TouchableOpacity>
@@ -72,8 +73,8 @@ export const ScheduleScreen = () => {
               <Text style={styles.timeText}>{item.arrivaltime}</Text>
             </View>
             <View style={styles.priceContainer}>
-              <Text style={styles.priceText}>₺{item.price.toFixed(2)}</Text>
-              <Text style={styles.unitsText}>{unitsPrice.toFixed(2)} UNITS</Text>
+              <Text style={styles.priceText}>${item.price.toFixed(2)}</Text>
+              <Text style={styles.unitsText}>{unitsPrice.toFixed(2)} UNIT0</Text>
             </View>
           </View>
 
@@ -84,7 +85,7 @@ export const ScheduleScreen = () => {
               <Text style={styles.routeDestination}>{item.name}</Text>
             </View>
             <View style={[styles.selectButton, { backgroundColor: THEME_COLOR }]}>
-              <Text style={styles.selectButtonText}>Seç</Text>
+              <Text style={styles.selectButtonText}>Select</Text>
               <MaterialCommunityIcons name="arrow-right" size={16} color="#000" />
             </View>
           </View>
@@ -497,6 +498,14 @@ export const ScheduleScreen = () => {
     }
   };
 
+  useEffect(() => {
+    const unsubscribe = nav.addListener('focus', () => {
+      setKey(prev => prev + 1);
+    });
+
+    return unsubscribe;
+  }, [nav]);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={[styles.header, { backgroundColor: '#2d2d2d' }]}>
@@ -508,13 +517,17 @@ export const ScheduleScreen = () => {
 
       <ScrollView style={styles.content}>
         <CustomCard elevated={true} style={[styles.fromToCard, { borderLeftColor: THEME_COLOR }]}>
-          <FromTo backgroundColor={THEME_COLOR} textColor="#fff" />
+          <FromTo 
+            key={key}
+            backgroundColor={THEME_COLOR}
+            textColor="#fff"
+          />
         </CustomCard>
         
         <TicketTypeSelector />
 
         <View style={styles.scheduleContainer}>
-          <Text style={styles.sectionTitle}>Seferler</Text>
+          <Text style={styles.sectionTitle}>Schedules</Text>
           <FlatList
             data={getScheduleData()}
             renderItem={scheduleItem}
