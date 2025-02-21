@@ -55,32 +55,6 @@ npx react-native run-ios
 npx react-native run-android
 
 
-The project is organized into the following key directories:
-
-flowpass/
-├── android/ # Android specific files
-├── ios/ # iOS specific files
-├── src/
-│ ├── assets/ # Images, fonts, and other static files
-│ ├── components/ # Reusable React components
-│ │ ├── Button/ # Custom button components
-│ │ ├── Card/ # Card components for tickets
-│ │ └── Header/ # Header components
-│ ├── context/ # React Context files
-│ │ ├── Web3Context.js # Web3 provider and blockchain interactions
-│ │ └── WalletContext.js # Wallet management and balance
-│ ├── screens/ # Application screens
-│ │ ├── HomeScreen/ # Main dashboard
-│ │ ├── PaymentScreen/ # Ticket purchase screen
-│ │ ├── ScheduleScreen/ # Transportation schedules
-│ │ └── WalletScreen/ # Wallet management
-│ ├── services/ # API and blockchain service integrations
-│ │ ├── web3/ # Web3 service configurations
-│ │ └── api/ # REST API integrations
-│ └── utils/ # Helper functions and utilities
-├── App.js # Application entry point
-└── package.json # Project dependencies and scripts
-
 ## 📦 Dependencies
 
 The project relies on the following key dependencies:
